@@ -30,7 +30,15 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        
+        
         // TODO:
+        
+        
+        
+        
+        
+        
         return new Path(graph, arcs);
     }
 
@@ -47,11 +55,17 @@ public class Path {
      *         consecutive nodes in the list are not connected in the graph.
      * 
      * @deprecated Need to be implemented.
-     */
+     */ 
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+    	List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+        for (Node n : nodes) {
+        	for (Arc s : n.getSuccessors()) {
+        		if (s.destination = ) // IL FAUT POUVOIR VERIFIER QUE LA DESTINATION EST BIEN LE SUIVANT DE LA LISTE
+        	}
+        }
+        
         return new Path(graph, arcs);
     }
 
@@ -196,8 +210,20 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+    	
+    	if (arcs == null) {
+    		return true;
+    	}
+    	
+    	Node node = this.origin;
+    	  	
+    	for (Arc arc : this.arcs) {
+            	if (arc.getOrigin() !=node) {
+            		return false;
+            	}
+            node=arc.getDestination();
+    	  	}
+        return true;
     }
 
     /**
