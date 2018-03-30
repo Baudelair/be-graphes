@@ -1,0 +1,17 @@
+import java.io.IOException;
+import java.util.Calendar;
+
+public class tache_libre extends tache {
+	
+	
+	private int dateRealisation;
+	private int dureeMoy;
+
+	public tache_libre(String descriptif) throws IOException {
+		super(descriptif);
+		this.dateDebut = dt.get(Calendar.DATE);
+		this.dateRealisation = dateReal;
+		this.dureeMoy = dureeMoy;
+	}
+}
+

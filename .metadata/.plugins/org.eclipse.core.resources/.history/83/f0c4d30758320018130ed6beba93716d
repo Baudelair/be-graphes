@@ -1,0 +1,16 @@
+import java.io.IOException;
+import java.util.Date;
+
+public class tache_chrono extends tache {
+	
+	private int dateDebut;
+	private int dateEcheance;
+	private int date;
+
+	public tache_chrono(String descriptif, int bonus, int dateDebut, int dateEch) throws IOException {
+		super(descriptif, bonus);
+		this.dateDebut = Date.gethours();;
+		this.dateEcheance = dateEch;
+		this.date = 1;
+	}
+}

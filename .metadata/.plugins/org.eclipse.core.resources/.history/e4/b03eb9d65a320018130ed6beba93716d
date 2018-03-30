@@ -1,0 +1,20 @@
+import java.io.IOException;
+import java.util.Date;
+
+public class tache_chrono extends tache {
+	
+	private int dateDebut;
+	private int dateEcheance;
+	private int date;
+	
+	DateTime dt = new DateTime();
+	int month = dt.getMonthOfYear();  // where January is 1 and December is 12
+	int year = dt.getYear();
+
+	public tache_chrono(String descriptif, int bonus, int duree) throws IOException {
+		super(descriptif, bonus);
+		this.dateDebut = dt.getHours();;
+		this.dateEcheance = dateDebut + duree;
+		this.date = 1;
+	}
+}

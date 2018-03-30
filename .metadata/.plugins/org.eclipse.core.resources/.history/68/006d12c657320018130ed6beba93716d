@@ -1,0 +1,15 @@
+import java.io.IOException;
+
+public class tache_chrono extends tache {
+	
+	private int dateDebut;
+	private int dateEcheance;
+	private int date;
+
+	public tache_chrono(String descriptif, int bonus, int dateDebut, int dateReal, int dureeMoy) throws IOException {
+		super(descriptif, bonus);
+		this.dateDebut = dateDebut;
+		this.dateRealisation = dateReal;
+		this.dureeMoy = dureeMoy;
+	}
+}

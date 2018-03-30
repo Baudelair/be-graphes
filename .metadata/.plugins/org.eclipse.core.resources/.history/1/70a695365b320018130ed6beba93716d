@@ -1,0 +1,18 @@
+import java.io.IOException;
+import java.util.Calendar;
+
+public class tache_chrono extends tache {
+	
+	private int dateDebut;
+	private int dateEcheance;
+	private int date;
+	
+	Calendar dt = Calendar.getInstance();
+
+	public tache_chrono(String descriptif, int bonus, int duree) throws IOException {
+		super(descriptif, bonus);
+		this.dateDebut = dt.get(Calendar.HOUR_OF_DAY);
+		this.dateEcheance = dateDebut + duree;
+		this.date = 1;
+	}
+}
