@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Main.java&apos; to &apos;Annale/src/(default package)&apos;&#x0D;&#x0A;- Original project: &apos;JavaDoc&apos;&#x0D;&#x0A;- Destination element: &apos;Annale/src/(default package)&apos;&#x0D;&#x0A;- Original element: &apos;Main.java&apos;" description="Copy compilation unit" destination="=Annale/src&lt;" element1="/&lt;{Main.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1522221964436" units="1" version="1.0"/>
+</session>

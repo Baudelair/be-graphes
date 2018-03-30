@@ -1,0 +1,7 @@
+
+public class tache_libre extends tache {
+
+	public void libre () {
+		super(String descriptif, int bonus);
+	}
+}

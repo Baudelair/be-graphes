@@ -1,0 +1,11 @@
+
+public class tache {
+	
+	private String descriptif;
+	private int bonus;
+	
+	public tache (String descriptif, int bonus) {
+		this.descriptif= descriptif;
+		this.bonus = bonus;
+	}
+}
