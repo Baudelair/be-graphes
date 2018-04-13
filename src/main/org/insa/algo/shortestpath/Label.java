@@ -10,6 +10,19 @@ public class Label implements Comparable<Label> {
 	private int mark;
 	private Node node;
 	
+	public Label (){
+		this.node = null;
+		this.father = null;
+		this.cost = Double.POSITIVE_INFINITY; //a changer
+		this.mark = 0; // 0 => non marqué 	1 => grisé
+	}
+	public Label(Node node) {
+		this.node = node;
+		this.father = null;
+		this.cost = Double.POSITIVE_INFINITY; //a changer
+		this.mark = 0; // 0 => non marqué 	1 => grisé	 2 => complété
+	}
+	
 	public Label(Node node, double cost) {
 		this.node = node;
 		this.father = null;
