@@ -10,32 +10,36 @@ public class Label implements Comparable<Label> {
 	private int mark;
 	private Node node;
 	
-	public Label(Node node, Node father) {
+	public Label(Node node) {
 		this.node = node;
-		this.father = father;
+		this.father = null;
 		this.cost = Double.POSITIVE_INFINITY; //a changer
-		this.mark = 0;
+		this.mark = 0; // 0 => non marqué 	1 => grisé	 2 => complété
 	}
 	
-	public getNode() {
-		
+	public Node getNode() {
+		return this.node;
 	}
 	
-	public getFather() {
-		
+	public Node getFather() {
+		return this.father;
 	}
 
-	public getCost() {
-		
+	public double getCost() {
+		return this.cost;
 	}
-	public getMark() {
-		
+	public int getMark() {
+		return this. mark;
 	}
-	public setCost() {
-		
+	public void setCost(double cout) {
+		this.cost = cout;
 	}
-	public setMark() {
-		
+	public void setMark(int mark) {
+		this.mark = mark;
+	}
+	
+	public void setFather(Node father) {
+		this.father = father;
 	}
 
 }
