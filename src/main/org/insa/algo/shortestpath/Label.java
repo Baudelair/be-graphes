@@ -4,7 +4,7 @@ import org.insa.algo.AbstractAlgorithm;
 import org.insa.graph.*;
 
 
-public class Label{
+public class Label implements Comparable<Label> {
 	private double cost;
 	private Node father;
 	private int mark;
@@ -37,5 +37,5 @@ public class Label{
 	public setMark() {
 		
 	}
-	
+
 }
