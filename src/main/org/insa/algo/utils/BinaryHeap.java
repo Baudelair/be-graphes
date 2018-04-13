@@ -167,31 +167,31 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     // index de l'element
     int index = this.array.indexOf(x) ;
 
-    // ---- cas triviaux(si vide ou l'element n'est pas prÃ(c)sent ou elÃ(c)ment en dehors de la taille tableau)
+    // ---- cas triviaux(si vide ou l'element n'est pas présent ou elément en dehors de la taille tableau)
     if (this.isEmpty() || index ==-1 || index >
     this.currentSize-1)
     {
     throw new ElementNotFoundException(x);
     }
 
-    // ----cas gÃ(c)nÃ(c)ral
+    // ----cas général
     // on remplace l'element x par l'element le plus basdans le tas
     E plus_bas = this.array.get(this.currentSize - 1) ;
     this.arraySet(index, plus_bas);
 
-    // on dÃ(c)crÃ(c)mente la taille dutas
+    // on décrémente la taille dutas
     this.currentSize -- ;
 
     // on effectue les percolate pour avoir un tas correct
     int index_parent = this.index_parent(index);
-    // si l'element est plus grand que son prÃ(c)dÃ(c)cesseur OU si c'est le premier element, on le descend
+    // si l'element est plus grand que son prédécesseur OU si c'est le premier element, on le descend
     if(index == 0 ||
     (this.array.get(index_parent).compareTo(this.array.get(index)) <
     0))
     {
     this.percolateDown(index);
     }
-    // si il est plus petit que son prÃ(c)dÃ(c)cesseur, on le monte
+    // si il est plus petit que son prédécesseur, on le monte
     else
     {
     this.percolateUp(index);
