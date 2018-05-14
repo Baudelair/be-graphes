@@ -6,7 +6,7 @@ import org.insa.graph.*;
 
 public class Label implements Comparable<Label> {
 	private double cost;
-	private Node father;
+	private Label father;
 	private int mark;
 	private Node node;
 	
@@ -34,7 +34,7 @@ public class Label implements Comparable<Label> {
 		return this.node;
 	}
 	
-	public Node getFather() {
+	public Label getFather() {
 		return this.father;
 	}
 
@@ -51,8 +51,23 @@ public class Label implements Comparable<Label> {
 		this.mark = mark;
 	}
 	
-	public void setFather(Node father) {
+	public void setFather(Label father) {
 		this.father = father;
+	}
+	@Override
+	public int compareTo(Label o) {
+		int a;
+		if (this.cost>o.getCost()) {
+			a=1;
+		}
+		else if (this.cost == o.getCost()) {
+			a=0;
+		}
+		else {
+			a=-1;
+		}
+		// TODO Auto-generated method stub
+		return a;
 	}
 
 }
