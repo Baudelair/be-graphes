@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.*;
-
-
-/**
+import static java.lang.Double.MAX_VALUE;
+import static java.lang.Double.MAX_VALUE;
+import static java.lang.Double.MAX_VALUE;/**
  * Class representing a path between nodes in a graph.
  * 
  * A path is represented as a list of {@link Arc} and not a list of {@link Node}
@@ -96,7 +96,44 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
     	
-    	if (nodes.size()==0) {
+    	
+    	  // Unique node case
+        if (nodes.size() == 1) {
+            return new Path(graph, nodes.get(0));
+        }
+
+        List<Arc> arcs = new ArrayList<Arc>();
+
+        int i = 0;
+        while (i < (nodes.size() - 1)){
+            boolean connected = false;
+            double fastest_time = MAX_VALUE;
+            Arc arc_to_add = null;
+            for (Arc arc : nodes.get(i)) {
+                if (arc.getDestination().equals(nodes.get(i + 1))) {
+                    connected = true;
+                    double min_time = arc.getMinimumTravelTime();
+                    if (min_time < fastest_time) {
+                        fastest_time = min_time;
+                        arc_to_add = arc;
+                    }
+                }
+            }
+
+            // Two consecutive nodes are not connected
+            if (!connected){
+                throw  new IllegalArgumentException("All nodes are not connected.");
+            }
+            // Add the fastest to the list
+            else {
+                arcs.add(arc_to_add);
+            }
+            i++;
+        }
+
+        return new Path(graph, arcs);
+    	
+    /*	if (nodes.size()==0) {
     		return new Path(graph);
     	}
     	if (nodes.size()==1) {
@@ -142,7 +179,7 @@ public class Path {
         }
         
         return new Path(graph, arcs);
-        
+        */
        
     }    	
     	

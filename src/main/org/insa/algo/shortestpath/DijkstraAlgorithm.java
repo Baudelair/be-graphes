@@ -1,6 +1,8 @@
 package org.insa.algo.shortestpath;
 
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import org.insa.algo.AbstractAlgorithm;
 import org.insa.algo.utils.BinaryHeap;
@@ -19,6 +21,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     @Override
     protected ShortestPathSolution doRun() {
     	
+    	
+    	
+    	// A OPTIMISER AVEC UNE MAP OU UN TABLEAU
     	//V2
     	BinaryHeap<Label> tas = new BinaryHeap<Label>();
     	ArrayList<Label> labels = new ArrayList<Label>();
@@ -27,12 +32,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     	ShortestPathSolution solution = null;	// SOLUTION
     	Graph graph = data.getGraph();
     	Label templ;
+    	int i = 0;
+    	int continuer = 1;
+    	//HashMap<Node,Label> map = new  HashMap<Node,Label>(graph.size());
+    	
+    	
+    	
     	//INITIALISATION
-        for (Node n : graph) {
+       for (Node n : graph) {
         	if (n.equals(data.getOrigin())) {
         		templ = new Label(n,0);
            		labels.add(templ); 
            		tas.insert(templ);
+           		
            		
         	}
         	else {
@@ -43,32 +55,36 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     	
       //ITERATION
     	
-        for(int i=0;i<graph.size();i++){ // a changer, verifier si tous marqués
-        	System.out.println("iteration :" + i);
-        	System.out.println("total :" + graph.size());
+        while (i<graph.size() && continuer ==1) { // a changer, verifier si tous marqués
+        	//System.out.println("iteration :" + i);
+        	//System.out.println("total :" + graph.size());
         	Label x =tas.deleteMin();
-        	System.out.println("Retrait d'un element, Taille tas :" + tas.size());
-        	System.out.println("test");
-        	for (Label l : labels) {
-        		if (l.getNode().equals(x.getNode())) {
-        			l.setMark(1);
-        			notifyNodeMarked(l.getNode());
-        		}
-        	}
+        	//System.out.println("Retrait d'un element, Taille tas :" + tas.size());
+        	//System.out.println("test");
+    		x.setMark(1);
+    		System.out.println("cout de l'element marqué:" + x.getCost());
+        	notifyNodeMarked(x.getNode());
+        		
         	for (Arc a : x.getNode()) { //Parcourt les successeurs (arcs)
-        		for (Label l : labels){	//Parcourt les labels pour retrouver label du successeur
-        			if (l.getNode()==a.getDestination()) {//dans ce if le l est le bon label
-        				if (l.getMark()!=1 && (l.getCost()>x.getCost()+a.getLength())){// SI successeur pas marque, et cout chemin + cout x meilleur
-        					l.setCost(x.getCost()+a.getLength());
-        					l.setFather(x);
-        					if (tas.existe(l)==-1){
-        						tas.insert(l);
-        						System.out.println("Rajout d'un element, Taille tas :" + tas.size());
-        					}
-        				}
-        			}
+        		if(data.isAllowed(a)){
+	        		for (Label l : labels){	//Parcourt les labels pour retrouver label du successeur
+	        			if (l.getNode()==a.getDestination()) {//dans ce if le l est le bon label
+	        				if (l.getMark()!=1 && (l.getCost()>x.getCost()+a.getLength())){// SI successeur pas marque, et cout chemin + cout x meilleur
+	        					l.setCost(x.getCost()+a.getLength());
+	        					l.setFather(x);
+	        					if (tas.existe(l)==-1){
+	        						tas.insert(l);
+	        						//System.out.println("Rajout d'un element, Taille tas :" + tas.size());
+	        					}
+	        				}
+	        			}
+	        		}
         		}
         	}
+        	if (x.getNode() == data.getDestination()) {
+        		continuer = 0;
+        	}
+        	i++;
         }
         
         //CONSTRUCTION SOLUTION
@@ -85,7 +101,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     		temp=temp.getFather();
     	}
     	nodes.add(temp.getNode());
+    	Collections.reverse(nodes);
     	Path path = Path.createShortestPathFromNodes(graph, nodes);
+    	System.out.println("Taille chemin :" + path.size());
+    	System.out.println("iterations necessaires" + i);
     	org.insa.algo.AbstractSolution.Status status = org.insa.algo.AbstractSolution.Status.OPTIMAL;
     	solution = new ShortestPathSolution(data,status , path);
     	
