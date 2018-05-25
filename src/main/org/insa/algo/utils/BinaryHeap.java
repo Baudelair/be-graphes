@@ -192,8 +192,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     int index_parent = this.index_parent(index);
     // si l'element est plus grand que son prédécesseur OU si c'est le premier element, on le descend
     if(index == 0 ||
-    (this.array.get(index_parent).compareTo(this.array.get(index)) <
-    0))
+    (this.array.get(index_parent).compareTo(this.array.get(index)) < 0))
     {
     this.percolateDown(index);
     }

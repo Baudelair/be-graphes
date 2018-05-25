@@ -8,10 +8,11 @@ import org.insa.algo.AbstractAlgorithm;
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.ElementNotFoundException;
 import org.insa.graph.*;
-public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
-	
-	
+
+
+
+public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
 	
     public DijkstraAlgorithm(ShortestPathData data) {
@@ -19,43 +20,31 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     }
 
     @Override
-    protected ShortestPathSolution doRun() {
+ protected ShortestPathSolution doRun() {
     	
     	
     	
     	// A OPTIMISER AVEC UNE MAP OU UN TABLEAU
     	//V2
     	BinaryHeap<Label> tas = new BinaryHeap<Label>();
-    	ArrayList<Label> labels = new ArrayList<Label>();
+
     	
     	ShortestPathData data = getInputData(); // DATA
     	ShortestPathSolution solution = null;	// SOLUTION
     	Graph graph = data.getGraph();
-    	Label templ;
+    	//Label templ;
     	int i = 0;
-    	int continuer = 1;
+    	int trouve = 0;
+    	//Label[] labels = new Label[graph.size()];
     	//HashMap<Node,Label> map = new  HashMap<Node,Label>(graph.size());
     	
+    	Label[] labels = init(graph,data,tas);
     	
-    	
-    	//INITIALISATION
-       for (Node n : graph) {
-        	if (n.equals(data.getOrigin())) {
-        		templ = new Label(n,0);
-           		labels.add(templ); 
-           		tas.insert(templ);
-           		
-           		
-        	}
-        	else {
-        		labels.add(new Label(n)); 
-        		//notifyNodeMarked(n);
-        	}
-        }
+
     	
       //ITERATION
     	
-        while (i<graph.size() && continuer ==1) { // a changer, verifier si tous marqués
+        while (i<graph.size() && trouve ==0 && tas.isEmpty() ==false) { // a changer, verifier si tous marqués
         	//System.out.println("iteration :" + i);
         	//System.out.println("total :" + graph.size());
         	Label x =tas.deleteMin();
@@ -67,8 +56,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		
         	for (Arc a : x.getNode()) { //Parcourt les successeurs (arcs)
         		if(data.isAllowed(a)){
-	        		for (Label l : labels){	//Parcourt les labels pour retrouver label du successeur
-	        			if (l.getNode()==a.getDestination()) {//dans ce if le l est le bon label
+	        		
+        					Label l=labels[a.getDestination().getId()];
 	        				if (l.getMark()!=1 && (l.getCost()>x.getCost()+a.getLength())){// SI successeur pas marque, et cout chemin + cout x meilleur
 	        					l.setCost(x.getCost()+a.getLength());
 	        					l.setFather(x);
@@ -76,113 +65,70 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        						tas.insert(l);
 	        						//System.out.println("Rajout d'un element, Taille tas :" + tas.size());
 	        					}
-	        				}
-	        			}
 	        		}
         		}
         	}
         	if (x.getNode() == data.getDestination()) {
-        		continuer = 0;
+        		trouve = 1;
         	}
         	i++;
         }
         
         //CONSTRUCTION SOLUTION
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        Label temp = null;
-        for (Label l : labels){
-        	if (l.getNode()==data.getDestination()){
-        		nodes.add(l.getNode());
-        		temp = l.getFather();
-        	}
+        if (trouve ==1){
+	        ArrayList<Node> nodes = new ArrayList<Node>();
+	        Label temp = null;
+	        //for (Label l : labels){
+	        	//if (l.getNode()==data.getDestination()){
+	        		Label l = labels[data.getDestination().getId()];
+	        		nodes.add(l.getNode());
+	        		temp = l.getFather();
+	        	//}
+	        //}
+	        if (temp !=null){
+		    	while (temp.getNode() != data.getOrigin()){
+		    		nodes.add(temp.getNode());
+		    		temp=temp.getFather();
+		    	}
+		    	nodes.add(temp.getNode());
+	        }
+	
+	    	Collections.reverse(nodes);
+	    	Path path = Path.createShortestPathFromNodes(graph, nodes);
+	    	System.out.println("Taille chemin :" + path.size());
+	    	System.out.println("iterations necessaires" + i);
+	    	org.insa.algo.AbstractSolution.Status status = org.insa.algo.AbstractSolution.Status.OPTIMAL;
+	    	solution = new ShortestPathSolution(data,status , path);
         }
-    	while (temp.getNode() != data.getOrigin()){
-    		nodes.add(temp.getNode());
-    		temp=temp.getFather();
-    	}
-    	nodes.add(temp.getNode());
-    	Collections.reverse(nodes);
-    	Path path = Path.createShortestPathFromNodes(graph, nodes);
-    	System.out.println("Taille chemin :" + path.size());
-    	System.out.println("iterations necessaires" + i);
-    	org.insa.algo.AbstractSolution.Status status = org.insa.algo.AbstractSolution.Status.OPTIMAL;
-    	solution = new ShortestPathSolution(data,status , path);
-    	
-    /*	BinaryHeap<Label> tas = new BinaryHeap<Label>();
-    	ArrayList<Label> labels = new ArrayList<Label>();
-    	
-    	Label temp  = new Label();//RAJOUTER CONSTRUCTEUR VIDE AVEC NODE A NULL
-    	
-        ShortestPathData data = getInputData();
-        ShortestPathSolution solution = null;
-        Graph graph = data.getGraph();
-        // TODO:
-
-        
-        //INITIALISATION
-        for (Node n : graph) {
-        	if (n.equals(data.getOrigin())) {
-           		labels.add(new Label(n,0)); 
-           		tas.insert(new Label(n,0));
-           		
-        	}
-        	else {
-        		labels.add(new Label(n)); 
-        		notifyNodeReached(n);
-        	}
+        else{
+        	org.insa.algo.AbstractSolution.Status status = org.insa.algo.AbstractSolution.Status.OPTIMAL;
+        	solution =  new ShortestPathSolution(data,status,null);
         }
-        //ITERATION
-        for(int i=0;i<graph.size();i++){ // a changer, verifier si tous marqués
-        	Label x =tas.deleteMin();
-        	
-        	for (Label l : labels) {
-        		if (l.getNode().equals(x.getNode())) {
-        			l.setMark(1);
-        			notifyNodeMarked(l.getNode());
-        		}
-        	}
-
-        	Label temp2 = null;
-        	for (Arc a : x.getNode()) { //Parcourt les successeurs (arcs)
-        		Iterator<Label> it = labels.iterator();
-        		while (it.hasNext()) { //parcourt les labels pour trouver le label du successeur
-        			temp = it.next();
-        			if (temp.getNode()==a.getDestination()) {//dans ce if le temp est le bon label
-        				if (temp.getMark()==0) {
-        					if (temp.getCost()>x.getCost()+a.getLength()) {
-        						
-        						//temp2.setCost(x.getCost()+a.getLength());
-        			        	for (Label l : labels) {
-        			        		if (l.getNode().equals(temp.getNode())) {
-        			        			l.setCost(x.getCost()+a.getLength());
-        			        			l.setFather(x.getFather());
-        			        			temp2=l;
-        			        		}
-        			        	}
-        						try {
-        						tas.remove(temp);
-        						} catch(ElementNotFoundException e) {        							
-        						}
-        						tas.insert(temp2);
-
-        						}
-        					}
-        				}
-        			}
-        		System.out.println("a");
-        		}
-        	
-        	}
-        ArrayList<Node> sol = new ArrayList<Node>();
-        for (Label l : labels) {
-    		if (l.getNode().equals(data.getDestination())) {
-    			sol.add(data.getDestination());
-    		}
-    	}
+    	
         
-        while (x.)
-    */    //LE RECONFORT
+
+     //LE RECONFORT
         return solution;
+    }
+    
+    protected Label[] init(Graph graph, ShortestPathData data,BinaryHeap<Label> tas) {
+    	Label[] labels = new Label[graph.size()];
+    	Label templ;
+    	//INITIALISATION
+        for (Node n : graph) {
+         	if (n.equals(data.getOrigin())) {
+         		templ = new Label(n,0);
+            		labels[n.getId()]=templ; 
+            		tas.insert(templ);
+            		
+            		
+         	}
+         	else {
+         		labels[n.getId()]=new Label(n); 
+         		//notifyNodeMarked(n);
+         	}
+         }
+        return labels;
     }
 
 }
