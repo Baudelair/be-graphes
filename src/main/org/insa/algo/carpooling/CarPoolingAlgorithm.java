@@ -1,6 +1,8 @@
 package org.insa.algo.carpooling;
 
 import org.insa.algo.AbstractAlgorithm;
+import org.insa.algo.shortestpath.ShortestPathObserver;
+import org.insa.graph.Node;
 
 public abstract class CarPoolingAlgorithm extends AbstractAlgorithm<CarPoolingObserver> {
 
@@ -20,5 +22,11 @@ public abstract class CarPoolingAlgorithm extends AbstractAlgorithm<CarPoolingOb
     public CarPoolingData getInputData() {
         return (CarPoolingData) super.getInputData();
     }
-
+    
+    public void notifyNodeMarked(Node node) {
+        for (CarPoolingObserver obs: getObservers()) {
+            obs.notifyNodeMarked(node);
+        }
+    }
+    
 }

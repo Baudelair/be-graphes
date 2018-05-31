@@ -71,6 +71,11 @@ import org.insa.graphics.drawing.components.BasicDrawing;
 import org.insa.graphics.drawing.components.MapViewDrawing;
 import org.insa.graphics.utils.FileUtils;
 import org.insa.graphics.utils.FileUtils.FolderType;
+import org.insa.algo.carpooling.CarPoolingData;
+import org.insa.algo.carpooling.CarPoolingGraphicObserver;
+import org.insa.algo.carpooling.CarPoolingObserver;
+import org.insa.algo.carpooling.CarPoolingSolution;
+import org.insa.algo.carpooling.CarPoolingTextObserver;
 
 public class MainWindow extends JFrame {
 
@@ -255,9 +260,63 @@ public class MainWindow extends JFrame {
         });
 
         cpPanel = new AlgorithmPanel(this, CarPoolingAlgorithm.class, "Car-Pooling", new String[]{
-                "Origin Car", "Origin Pedestrian", "Destination Car", "Destination Pedestrian" },
+                "Origin A", "Origin B", "Destination"},
                 true);
+        cpPanel.addStartActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StartActionEvent evt = (StartActionEvent) e;
+                CarPoolingData data = new CarPoolingData(graph, evt.getNodes().get(0),
+                        evt.getNodes().get(1), evt.getNodes().get(2), evt.getArcFilter());
 
+                CarPoolingAlgorithm cpAlgorithm = null;
+                try {
+                    cpAlgorithm = (CarPoolingAlgorithm) AlgorithmFactory
+                            .createAlgorithm(evt.getAlgorithmClass(), data);
+                }
+                catch (Exception e1) {
+                    JOptionPane.showMessageDialog(MainWindow.this,
+                            "An error occurred while creating the specified algorithm.",
+                            "Internal error: Algorithm instantiation failure",
+                            JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                    return;
+                }
+
+                cpPanel.setEnabled(false);
+
+                if (evt.isGraphicVisualizationEnabled()) {
+                    cpAlgorithm.addObserver(new CarPoolingGraphicObserver(drawing));
+                }
+                if (evt.isTextualVisualizationEnabled()) {
+                    cpAlgorithm.addObserver(new CarPoolingTextObserver(printStream));
+                }
+
+                final CarPoolingAlgorithm copyAlgorithm = cpAlgorithm;
+                launchThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Run the algorithm.
+                        CarPoolingSolution solution = copyAlgorithm.run();
+                        // Add the solution to the solution panel (but do not display
+                        // overlay).
+                        cpPanel.solutionPanel.addSolution(solution, false);
+                        // If the solution is feasible, add the path to the path panel.
+                        if (solution.isFeasible()) {
+                            pathPanel.addPath(solution.getPAC());
+                            pathPanel.addPath(solution.getPBC());
+                            pathPanel.addPath(solution.getPCD());
+                        }
+                        // Show the solution panel and enable the shortest-path panel.
+                        cpPanel.solutionPanel.setVisible(true);
+                        cpPanel.setEnabled(true);
+                    }
+                });
+            }
+        });
+        
+        
+        
         psPanel = new AlgorithmPanel(this, PackageSwitchAlgorithm.class, "Car-Pooling",
                 new String[]{ "Oribin A", "Origin B", "Destination A", "Destination B" }, true);
 

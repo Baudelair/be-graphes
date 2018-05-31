@@ -13,24 +13,11 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 	}
 	
 	
-    protected Label[] init(Graph graph, ShortestPathData data,BinaryHeap<Label> tas) {
-    	Label[] labels = new Label[graph.size()];
-    	//INITIALISATION
-        for (Node n : graph) {
-         	if (n.equals(data.getOrigin())) {
-         		Label templ = new LabelStar(n,0,data.getDestination());
-            		labels[n.getId()]=templ; 
-            		tas.insert(templ);
-            		
-            		
-         	}
-         	else {
-         		labels[n.getId()]=new LabelStar(n,data.getDestination()); 
-         		//notifyNodeMarked(n);
-         	}
-         }
-        return labels;
+    protected Label CreateLabel (Node node, ShortestPathData data){
+    	return new LabelStar(node,data);
     }
-
+    protected Label CreateLabelwCost (Node node, ShortestPathData data, float cost){
+    	return new LabelStar(node, cost,data);
+    }
 	
 }

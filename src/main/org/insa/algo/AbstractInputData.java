@@ -3,6 +3,7 @@ package org.insa.algo;
 import org.insa.graph.Arc;
 import org.insa.graph.Graph;
 import org.insa.graph.GraphStatistics;
+import org.insa.graph.Path;
 
 /**
  * Base class for algorithm input data classes. This class contains the basic
@@ -58,6 +59,13 @@ public abstract class AbstractInputData {
     public double getCost(Arc arc) {
         return this.arcInspector.getCost(arc);
     }
+    public double getCost(Path p) {
+    	double total = 0;
+    	for (Arc a : p.getArcs()){
+        total = total + this.arcInspector.getCost(a);
+    	}
+    	return total;
+    }
 
     /**
      * @return Mode associated with this input data.
@@ -80,7 +88,8 @@ public abstract class AbstractInputData {
     public int getMaximumSpeed() {
         return this.arcInspector.getMaximumSpeed();
     }
-
+    
+    
     /**
      * Check if the given arc is allowed for the filter corresponding to this input.
      * 
@@ -93,5 +102,7 @@ public abstract class AbstractInputData {
     public boolean isAllowed(Arc arc) {
         return this.arcInspector.isAllowed(arc);
     }
-
+    public ArcInspector getArcInspector(){// pas bien, il aurait fallu faire un cloneur mais pas assez de controle sur les autres classes
+    	return this.arcInspector;
+    }
 }

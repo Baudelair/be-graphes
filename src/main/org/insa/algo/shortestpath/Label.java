@@ -1,6 +1,7 @@
 
 package org.insa.algo.shortestpath;
 import org.insa.algo.AbstractAlgorithm;
+import org.insa.algo.AbstractInputData;
 import org.insa.graph.*;
 
 

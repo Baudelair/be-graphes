@@ -373,7 +373,7 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public boolean isValid() {
     	
@@ -397,7 +397,7 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
+
      */
     public float getLength() {
     	float lenght =0;
@@ -415,7 +415,7 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
+
      */
     public double getTravelTime(double speed) {
         return getLength() * 3600/(speed * 1000);
@@ -427,7 +427,7 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
+
      */
     public double getMinimumTravelTime() {
         double duree =0;

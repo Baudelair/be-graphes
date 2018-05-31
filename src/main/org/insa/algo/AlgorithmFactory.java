@@ -7,6 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.insa.algo.carpooling.CarPoolingAlgorithm;
+import org.insa.algo.carpooling.CarPoolingDT;
+import org.insa.algo.carpooling.CarPoolingV1;
+import org.insa.algo.carpooling.CarPoolingV2;
+import org.insa.algo.carpooling.CarPoolingV3;
+import org.insa.algo.carpooling.CarPoolingV4;
 import org.insa.algo.shortestpath.AStarAlgorithm;
 import org.insa.algo.shortestpath.BellmanFordAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithm;
@@ -32,7 +38,8 @@ public class AlgorithmFactory {
         registerAlgorithm(ShortestPathAlgorithm.class, "Bellman-Ford", BellmanFordAlgorithm.class);
         registerAlgorithm(ShortestPathAlgorithm.class, "Dijkstra", DijkstraAlgorithm.class);
         registerAlgorithm(ShortestPathAlgorithm.class, "A*", AStarAlgorithm.class);
-
+        registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingDT",CarPoolingDT.class);
+        registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingV4",CarPoolingV4.class);
         // Register your algorithms here:
         // registerAlgorithm(CarPoolingAlgorithm.class, "My Awesome Algorithm",
         // MyCarPoolingAlgorithm.class);
