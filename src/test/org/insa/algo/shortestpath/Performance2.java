@@ -17,11 +17,11 @@ public class Performance2 {
 	
 	@Test
 	public void TestPerformance() throws Exception {
-		int nombreTests = 50;
-		int filtre = 0;
+		int nombreTests = 300;
+		int filtre = 0; // ATTENTION NE PAS OUBLIER
 		String ligne;
 		
-    	String mapPath = "C:\\Users\\Maxence\\workspace\\Descartes\\brazil.mapgr";
+    	String mapPath = "C:\\Users\\Maxence\\workspace\\Descartes\\haute-garonne.mapgr";
     	Graph graph;
         GraphReader lect = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapPath))));
     	graph = lect.read();
@@ -31,7 +31,7 @@ public class Performance2 {
 		double tmsFin;
     	
     	
-		PrintWriter writer = new PrintWriter("C:\\Users\\Maxence\\Desktop\\RESULTATS\\brazil50.txt");
+		PrintWriter writer = new PrintWriter("C:\\Users\\Maxence\\Desktop\\RESULTATS\\hgshortest300.txt");
 		
 		
 		for (int i=0;i<nombreTests;i++){

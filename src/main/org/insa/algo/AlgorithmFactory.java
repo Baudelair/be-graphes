@@ -40,6 +40,9 @@ public class AlgorithmFactory {
         registerAlgorithm(ShortestPathAlgorithm.class, "A*", AStarAlgorithm.class);
         registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingDT",CarPoolingDT.class);
         registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingV4",CarPoolingV4.class);
+        registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingV3",CarPoolingV3.class);
+        registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingV2",CarPoolingV2.class);
+        registerAlgorithm(CarPoolingAlgorithm.class,"CarPoolingV1",CarPoolingV1.class);
         // Register your algorithms here:
         // registerAlgorithm(CarPoolingAlgorithm.class, "My Awesome Algorithm",
         // MyCarPoolingAlgorithm.class);
